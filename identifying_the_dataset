@@ -1,0 +1,362 @@
+{
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "view-in-github",
+        "colab_type": "text"
+      },
+      "source": [
+        "<a href=\"https://colab.research.google.com/github/Noors-lab/VigIQ-Vigilance-Intelligence-/blob/main/identifying_the_dataset\" target=\"_parent\"><img src=\"https://colab.research.google.com/assets/colab-badge.svg\" alt=\"Open In Colab\"/></a>"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "## identifying dataset"
+      ],
+      "metadata": {
+        "id": "1tRymPWSLO7X"
+      },
+      "id": "1tRymPWSLO7X"
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "import os\n",
+        "from google.colab import drive\n",
+        "\n",
+        "drive.mount('/content/drive')"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "XDQyy9guMGVL",
+        "outputId": "38f6d761-474d-41ec-fdf2-e1f2ad3efafd"
+      },
+      "id": "XDQyy9guMGVL",
+      "execution_count": 4,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "Mounted at /content/drive\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "import os\n",
+        "from google.colab import drive\n",
+        "\n",
+        "drive.mount('/content/drive')\n",
+        "\n",
+        "root = \"/content/drive/MyDrive/shoplifting\"\n",
+        "\n",
+        "print(\"=== WHAT'S INSIDE ===\\n\")\n",
+        "\n",
+        "# Check root level first\n",
+        "print(\"ROOT LEVEL:\")\n",
+        "for item in os.listdir(root):\n",
+        "    item_path = os.path.join(root, item)\n",
+        "    if os.path.isdir(item_path):\n",
+        "        print(f\"  [FOLDER] {item}\")\n",
+        "    else:\n",
+        "        print(f\"  [FILE] {item}\")\n",
+        "\n",
+        "print(\"\\nSUBFOLDER CONTENTS:\")\n",
+        "for item in os.listdir(root):\n",
+        "    item_path = os.path.join(root, item)\n",
+        "    if os.path.isdir(item_path):\n",
+        "        print(f\"\\n  Inside '{item}':\")\n",
+        "        for subitem in os.listdir(item_path)[:5]:\n",
+        "            print(f\"    {subitem}\")"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "nlAY9wOzLSSx",
+        "outputId": "bb05ff05-acec-46f0-9274-5d5a6d62d04c"
+      },
+      "id": "nlAY9wOzLSSx",
+      "execution_count": 9,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "Drive already mounted at /content/drive; to attempt to forcibly remount, call drive.mount(\"/content/drive\", force_remount=True).\n",
+            "=== WHAT'S INSIDE ===\n",
+            "\n",
+            "ROOT LEVEL:\n",
+            "  [FILE] shoplifting.zip\n",
+            "  [FILE] shoplifting.v1i.yolov11.zip\n",
+            "  [FILE] shoplifting_1.zip\n",
+            "  [FILE] Shoplifting.v2i.yolov11.zip\n",
+            "\n",
+            "SUBFOLDER CONTENTS:\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "import zipfile\n",
+        "import os\n",
+        "\n",
+        "root = \"/content/drive/MyDrive/shoplifting\"\n",
+        "extract_to = \"/content/shoplifting_data\"\n",
+        "\n",
+        "os.makedirs(extract_to, exist_ok=True)\n",
+        "\n",
+        "for file in os.listdir(root):\n",
+        "    if file.endswith('.zip'):\n",
+        "        zip_path = os.path.join(root, file)\n",
+        "        folder_name = file.replace('.zip', '').replace('.', '_')\n",
+        "        out_path = os.path.join(extract_to, folder_name)\n",
+        "        print(f\"Extracting {file}...\")\n",
+        "        with zipfile.ZipFile(zip_path, 'r') as z:\n",
+        "            z.extractall(out_path)\n",
+        "        print(f\"  Done → {out_path}\")\n",
+        "\n",
+        "print(\"\\nAll extracted. Now scanning...\")\n",
+        "\n",
+        "# Scan extracted content\n",
+        "for folder in os.listdir(extract_to):\n",
+        "    folder_path = os.path.join(extract_to, folder)\n",
+        "    print(f\"\\n[{folder}]\")\n",
+        "    for item in os.listdir(folder_path)[:10]:\n",
+        "        print(f\"  {item}\")"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "XvZMNJAHaIZd",
+        "outputId": "fcff2833-9735-4cfc-80b1-f3ebfc5dabe4"
+      },
+      "id": "XvZMNJAHaIZd",
+      "execution_count": 10,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "Extracting shoplifting.zip...\n",
+            "  Done → /content/shoplifting_data/shoplifting\n",
+            "Extracting shoplifting.v1i.yolov11.zip...\n",
+            "  Done → /content/shoplifting_data/shoplifting_v1i_yolov11\n",
+            "Extracting shoplifting_1.zip...\n",
+            "  Done → /content/shoplifting_data/shoplifting_1\n",
+            "Extracting Shoplifting.v2i.yolov11.zip...\n",
+            "  Done → /content/shoplifting_data/Shoplifting_v2i_yolov11\n",
+            "\n",
+            "All extracted. Now scanning...\n",
+            "\n",
+            "[shoplifting]\n",
+            "  shoplifting\n",
+            "  normal\n",
+            "\n",
+            "[Shoplifting_v2i_yolov11]\n",
+            "  valid\n",
+            "  README.dataset.txt\n",
+            "  train\n",
+            "  data.yaml\n",
+            "  test\n",
+            "  README.roboflow.txt\n",
+            "\n",
+            "[shoplifting_1]\n",
+            "  Shop DataSet\n",
+            "\n",
+            "[shoplifting_v1i_yolov11]\n",
+            "  valid\n",
+            "  README.dataset.txt\n",
+            "  train\n",
+            "  data.yaml\n",
+            "  README.roboflow.txt\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "import os\n",
+        "\n",
+        "extract_to = \"/content/shoplifting_data\"\n",
+        "\n",
+        "# Deep scan for videos and images\n",
+        "video_ext = ('.mp4', '.avi', '.mov', '.mkv', '.MP4', '.AVI', '.MOV')\n",
+        "image_ext = ('.jpg', '.jpeg', '.png', '.JPG', '.PNG')\n",
+        "\n",
+        "for dataset in ['shoplifting', 'shoplifting_1']:\n",
+        "    dataset_path = os.path.join(extract_to, dataset)\n",
+        "    print(f\"\\n=== {dataset} ===\")\n",
+        "\n",
+        "    total_videos = 0\n",
+        "    total_images = 0\n",
+        "\n",
+        "    for dirpath, dirnames, filenames in os.walk(dataset_path):\n",
+        "        videos = [f for f in filenames if f.endswith(video_ext)]\n",
+        "        images = [f for f in filenames if f.endswith(image_ext)]\n",
+        "\n",
+        "        if videos or images:\n",
+        "            rel_path = os.path.relpath(dirpath, dataset_path)\n",
+        "            print(f\"\\n  Folder: {rel_path}\")\n",
+        "            print(f\"  Videos: {len(videos)}\")\n",
+        "            print(f\"  Images: {len(images)}\")\n",
+        "            if videos:\n",
+        "                print(f\"  Sample: {videos[:2]}\")\n",
+        "\n",
+        "        total_videos += len(videos)\n",
+        "        total_images += len(images)\n",
+        "\n",
+        "    print(f\"\\n  TOTAL VIDEOS: {total_videos}\")\n",
+        "    print(f\"  TOTAL IMAGES: {total_images}\")"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "dQDUyXkUbKV6",
+        "outputId": "c33ceb0d-778d-4093-d8a0-67ff0f993c41"
+      },
+      "id": "dQDUyXkUbKV6",
+      "execution_count": 11,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "\n",
+            "=== shoplifting ===\n",
+            "\n",
+            "  Folder: shoplifting\n",
+            "  Videos: 92\n",
+            "  Images: 0\n",
+            "  Sample: ['shoplifting-13.mp4', 'shoplifting-19.mp4']\n",
+            "\n",
+            "  Folder: normal\n",
+            "  Videos: 90\n",
+            "  Images: 0\n",
+            "  Sample: ['normal-36.mp4', 'normal-75.mp4']\n",
+            "\n",
+            "  TOTAL VIDEOS: 182\n",
+            "  TOTAL IMAGES: 0\n",
+            "\n",
+            "=== shoplifting_1 ===\n",
+            "\n",
+            "  Folder: Shop DataSet/shop lifters\n",
+            "  Videos: 324\n",
+            "  Images: 0\n",
+            "  Sample: ['videyyyyyyzzzzzyyyss_15.mp4', 'videyyyyyyzzzzzyyyss_14.mp4']\n",
+            "\n",
+            "  Folder: Shop DataSet/non shop lifters\n",
+            "  Videos: 531\n",
+            "  Images: 0\n",
+            "  Sample: ['shop_lifter_n_147_1.mp4', 'shop_lifter_n_162.mp4']\n",
+            "\n",
+            "  TOTAL VIDEOS: 855\n",
+            "  TOTAL IMAGES: 0\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "import os\n",
+        "import cv2\n",
+        "\n",
+        "extract_to = \"/content/shoplifting_data\"\n",
+        "\n",
+        "paths = [\n",
+        "    (\"/content/shoplifting_data/shoplifting/shoplifting\", \"shoplifting\"),\n",
+        "    (\"/content/shoplifting_data/shoplifting/normal\", \"normal\"),\n",
+        "    (\"/content/shoplifting_data/shoplifting_1/Shop DataSet/shop lifters\", \"shoplifters\"),\n",
+        "    (\"/content/shoplifting_data/shoplifting_1/Shop DataSet/non shop lifters\", \"non_shoplifters\"),\n",
+        "]\n",
+        "\n",
+        "for folder_path, label in paths:\n",
+        "    durations = []\n",
+        "    files = [f for f in os.listdir(folder_path) if f.endswith('.mp4')][:10]\n",
+        "    for f in files:\n",
+        "        cap = cv2.VideoCapture(os.path.join(folder_path, f))\n",
+        "        fps = cap.get(cv2.CAP_PROP_FPS)\n",
+        "        frames = cap.get(cv2.CAP_PROP_FRAME_COUNT)\n",
+        "        if fps > 0:\n",
+        "            durations.append(frames / fps)\n",
+        "        cap.release()\n",
+        "\n",
+        "    if durations:\n",
+        "        print(f\"{label}:\")\n",
+        "        print(f\"  Avg duration: {sum(durations)/len(durations):.1f}s\")\n",
+        "        print(f\"  Min: {min(durations):.1f}s  Max: {max(durations):.1f}s\\n\")"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "EfzsceV5bY42",
+        "outputId": "119a4731-8e5b-417c-adf3-86bf1af710f0"
+      },
+      "id": "EfzsceV5bY42",
+      "execution_count": 12,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "shoplifting:\n",
+            "  Avg duration: 10.9s\n",
+            "  Min: 10.2s  Max: 11.8s\n",
+            "\n",
+            "normal:\n",
+            "  Avg duration: 11.5s\n",
+            "  Min: 10.3s  Max: 12.7s\n",
+            "\n",
+            "shoplifters:\n",
+            "  Avg duration: 10.1s\n",
+            "  Min: 8.0s  Max: 14.0s\n",
+            "\n",
+            "non_shoplifters:\n",
+            "  Avg duration: 15.5s\n",
+            "  Min: 10.0s  Max: 19.0s\n",
+            "\n"
+          ]
+        }
+      ]
+    }
+  ],
+  "metadata": {
+    "kernelspec": {
+      "display_name": "venv",
+      "language": "python",
+      "name": "python3"
+    },
+    "language_info": {
+      "codemirror_mode": {
+        "name": "ipython",
+        "version": 3
+      },
+      "file_extension": ".py",
+      "mimetype": "text/x-python",
+      "name": "python",
+      "nbconvert_exporter": "python",
+      "pygments_lexer": "ipython3",
+      "version": "3.12.3"
+    },
+    "colab": {
+      "provenance": [],
+      "include_colab_link": true
+    }
+  },
+  "nbformat": 4,
+  "nbformat_minor": 5
+}
