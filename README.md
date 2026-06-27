@@ -22,7 +22,11 @@ too expensive and too complex.
 - Simple HTML/JS — staff dashboard
 
 ## Status
-✅ Stage 1 — Data Assessment (1037 clips, 416 shoplifting / 621 normal)
-✅ Stage 2 — Keypoint Extraction (YOLOv11n-pose, 50 frames x 34 keypoints)
-🔧 Stage 3 — LSTM Training
- 
+✅ Stage 1 — Data Assessment
+✅ Stage 2 — Keypoint Extraction
+✅ Stage 3 — LSTM Training (82% accuracy)
+✅ Stage 4 — Rule Layer (working)
+🔧 Stage 5 — Real time inference pipeline
+🔧 Stage 6 — Alert system + clip extraction
+🔧 Stage 7 — Dashboard
+🔧 Stage 8 — Demo
