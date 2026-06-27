@@ -22,11 +22,10 @@ too expensive and too complex.
 - Simple HTML/JS — staff dashboard
 
 ## Status
-✅ Stage 1 — Data Assessment
-✅ Stage 2 — Keypoint Extraction
+✅ Stage 1 — Data Assessment (1408 clips)
+✅ Stage 2 — Keypoint Extraction (normalized)
 ✅ Stage 3 — LSTM Training (82% accuracy)
-✅ Stage 4 — Rule Layer (working)
-🔧 Stage 5 — Real time inference pipeline
-🔧 Stage 6 — Alert system + clip extraction
-🔧 Stage 7 — Dashboard
-🔧 Stage 8 — Demo
+✅ Stage 4 — Rule Layer
+✅ Stage 5 — Real Time Inference Pipeline
+🔧 Stage 6 — Alert System + Dashboard
+🔧 Stage 7 — Demo
